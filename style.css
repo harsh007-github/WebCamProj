@@ -14,3 +14,25 @@ video {
     width: 100%;
     height: 100%;
 }
+.controlsContainer {
+    height: 15rem;
+    width: 5rem;
+    background-color: aqua;
+    color: black;
+    position: absolute;
+    top:calc((100vh - 10rem )/ 2);
+    right: 5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.controlsContainer > * {
+    width: 100%;
+    height: 5rem;
+    background-color: red;
+    border-radius: 50%;
+    border: 3px solid black;
+}
+.recordBtn {
+    background-color: aqua;
+}
