@@ -6,6 +6,6 @@ let constraints = {
     video:true
 }
 
-// navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
-//     video.srcObject = stream;
-// })
+navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
+    video.srcObject = stream;
+})
