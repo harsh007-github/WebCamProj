@@ -4,6 +4,8 @@
 body {
     margin: 0;
     padding: 0;
+    overflow-x: hidden;
+    overflow-y: hidden2;
 }
 .videoContainer {
     width: 100vw;
@@ -46,4 +48,15 @@ video {
     width: 3rem;
     border-radius: 50%;
     background-color: white;
+}
+.scaleRecord {
+    animation-name: scaleRecord;
+}
+@keyframes scaleRecord {
+    0% {
+
+    }
+    100% {
+        
+    }
 }
