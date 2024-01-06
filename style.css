@@ -75,3 +75,12 @@ video {
         transform: scale(1.1);
     }
 }
+.timerCont{
+    color: aqua;
+    position: absolute;
+    top:50%;
+    left: 5rem;
+}
+.timer {
+    display: none;
+}

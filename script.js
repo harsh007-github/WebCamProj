@@ -47,10 +47,40 @@ recordCont.addEventListener("click", (e) => {
     {
         recorder.start();
         recordBtn.classList.add("scaleRecord");
+        startTimer();
     }
     else
     {
         recorder.stop();
         recordBtn.classList.remove("scaleRecord");
+        stopTimer();
     }
 });
+let timer = document.querySelector(".timer");
+let timerID;
+let cnt = 0;
+function startTimer()
+{
+    timer.style.display = "block";
+    function displayTimer()
+    {
+        let totalTime = cnt;
+        let hour = Number.parseInt(cnt / 3600);
+        totalTime -= 3600*hour;
+        let minutes = Number.parseInt(totalTime / 60);
+        totalTime -= Number.parseInt(60*minutes);
+        let seconds = totalTime;
+        hour = (hour < 10)?`0${hour}`:hour;
+        minutes = (minutes < 10)?`0${minutes}`:minutes;
+        seconds = (seconds < 10)?`0${seconds}`:seconds;
+        timer.innerText = `${hour}:${minutes}:${seconds}`;
+        cnt++;
+    }
+    timerID = setInterval(displayTimer, 1000);
+}
+function stopTimer()
+{
+    clearInterval(timerID);
+    timer.style.display = "none";
+    timer.innerText = "00:00:00";
+}
