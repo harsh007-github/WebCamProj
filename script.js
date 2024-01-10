@@ -56,6 +56,9 @@ recordCont.addEventListener("click", (e) => {
         stopTimer();
     }
 });
+captureCont.addEventListener("click",() => {
+
+});
 let timer = document.querySelector(".timer");
 let timerID;
 let cnt = 0;
