@@ -57,7 +57,18 @@ recordCont.addEventListener("click", (e) => {
     }
 });
 captureCont.addEventListener("click",() => {
-
+    let canvas = document.createElement("canvas");
+    
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    
+    let tool = canvas.getContext("2d");
+    tool.drawImage(video, 0,0, canvas.width, canvas.height);
+    let imageURL = canvas.toDataURL();
+    let a = document.createElement("a");
+        a.href = imageURL;
+        a.download = "capture.jpg"
+        a.click();
 });
 let timer = document.querySelector(".timer");
 let timerID;
