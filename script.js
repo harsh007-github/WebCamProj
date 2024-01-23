@@ -8,6 +8,7 @@ let captureBtn = document.querySelector(".captureBtn");
 let recorder;
 let recordFlag = false;
 let chunks = [];
+let color = "transparent";
 
 // Permissions needed to entered and with their rquirements (true in this case)
 let constraints = {
@@ -63,7 +64,11 @@ captureCont.addEventListener("click",() => {
     canvas.height = video.videoHeight;
     
     let tool = canvas.getContext("2d");
+    //Filtering
+    
     tool.drawImage(video, 0,0, canvas.width, canvas.height);
+    tool.fillStyle = color;
+    tool.fillRect(0, 0, canvas.width, canvas.height);
     let imageURL = canvas.toDataURL();
     let a = document.createElement("a");
         a.href = imageURL;
@@ -98,3 +103,15 @@ function stopTimer()
     timer.style.display = "none";
     timer.innerText = "00:00:00";
 }
+//Logic for filter
+let filter = document.querySelectorAll(".filter");
+let filterLayer = document.querySelector(".filterLayer");
+filter.forEach((filterElem) => {
+    filterElem.addEventListener("click", (e) => {
+        let filterElemStyle = getComputedStyle(filterElem);
+        // console.log(filterElemStyle);
+        color = filterElemStyle.backgroundColor;
+        filterLayer.style.backgroundColor = color;
+        // console.log(color);
+    });
+})
