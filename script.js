@@ -29,6 +29,7 @@ navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
         //Converting chunks to video
         let blob = new Blob(chunks, {type: "video/mp4"});
         let url = URL.createObjectURL(blob);
+        
         let a = document.createElement("a");
         a.href = url;
         a.download = "stream.mp4"
