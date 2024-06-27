@@ -79,8 +79,8 @@ video {
 .timerCont{
     color: aqua;
     position: absolute;
-    top:50%;
-    left: 5rem;
+    bottom: 10rem;
+    left: 4rem;
 }
 .timer {
     display: none;
