@@ -4,8 +4,8 @@
 body {
     margin: 0;
     padding: 0;
-    overflow-x: hidden;
-    overflow-y: hidden;
+    overflow-x: hidden; 
+    overflow-y: hidden;  
 }
 .videoContainer {
     width: 100vw;
@@ -43,12 +43,14 @@ video {
     height: 3rem;
     width: 3rem;
     border-radius: 50%;
+    cursor: pointer;
 }
 .captureBtn {
     height: 3rem;
     width: 3rem;
     border-radius: 50%;
     background-color: white;
+    cursor: pointer;
 }
 .scaleRecord {
     animation-name: scaleRecord;
@@ -101,6 +103,7 @@ video {
     background-size: 100%, 100%;
     background-repeat: no-repeat;
     background-blend-mode: color-burn;
+    cursor: pointer;
 }
 .brown {
     background-color: #a52a2a61;
@@ -119,4 +122,18 @@ video {
     width: 100vw;
     background-color: transparent;
     z-index: 1;
+}
+.material-symbols-outlined {
+    color: white;
+}
+.material-icons {
+    color: white;
+    font-size: 3rem;
+}
+.gallery {
+    right: 6rem;
+    position: absolute;
+    bottom: 5rem;
+    z-index: 2;
+    cursor: pointer;
 }
