@@ -16,6 +16,7 @@ video {
     width: 100%;
     height: 100%;
 }
+
 .controlsContainer {
     height: 12rem;
     width: 5rem;
@@ -87,6 +88,19 @@ video {
 .timer {
     display: none;
 }
+
+.filterLayer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: 0.4;
+    /* background-image: linear-gradient(to top, black, transparent);  */
+    pointer-events: none;
+}
+
 .filterCont {
     position: absolute;
     top: calc((100vh - 16rem)/2);    
@@ -113,15 +127,7 @@ video {
 }
 .red {
     background-color: #ff000080;
-}
-.filterLayer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: 100vw;
-    background-color: transparent;
-    z-index: 1;
+    
 }
 .material-symbols-outlined {
     color: white;
