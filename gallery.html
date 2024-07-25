@@ -7,9 +7,20 @@
     <link rel="stylesheet" href="gallery.css">
 </head>
 <body>
-    <h1>Gallery</h1>
     <div class="back" >BACK</div>
-    <div class="galleryCont"></div>
+    <div class="galleryCont">
+        <div class="mediaCont">
+            <!-- Photo or video -->
+            <div class="media">
+            </div>
+            <!-- Download Button -->
+            <div class="download actionBtn">DOWNLOAD</div>
+            <!-- Delete Button -->
+             <div class="delete actionBtn">DELETE</div>
+        </div>
+    </div>
+    <script src="db.js"></script>
+    <script src="gallery.js"></script>
     <script>
         let back = document.querySelector(".back");
         back.addEventListener("click", (e)=> {
