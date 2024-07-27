@@ -4,33 +4,33 @@
 body {
     margin: 0;
     padding: 0;
-    overflow-x: hidden; 
-    overflow-y: hidden;  
+    overflow: hidden;
 }
-.videoContainer {
-    width: 100vw;
+
+.video-cont {
     height: 100vh;
-    background-color: #2F2F2F;
+    width: 100vw;
+    background-color: black;
 }
 video {
     width: 100%;
     height: 100%;
 }
 
-.controlsContainer {
+.action-cont {
     height: 12rem;
     width: 5rem;
-    /* background-color: aqua; */
-    color: black;
+    /* background-color: lightblue; */
     position: absolute;
-    top:calc((100vh - 12rem )/ 2);
+    top: calc( ( 100vh - 12rem ) / 2 );
     right: 5rem;
+    color: white;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     z-index: 2;
 }
-.controlsContainer > * {
+.action-cont > * {
     width: 100%;
     height: 5rem;
     border-radius: 50%;
@@ -39,106 +39,109 @@ video {
     justify-content: center;
     align-items: center;
 }
-.recordBtn {
+.record-btn {
     background-color: red;
     height: 3rem;
     width: 3rem;
     border-radius: 50%;
-    cursor: pointer;
 }
-.captureBtn {
+.capture-btn {
+    background-color: white;
     height: 3rem;
     width: 3rem;
     border-radius: 50%;
-    background-color: white;
-    cursor: pointer;
 }
-.scaleRecord {
-    animation-name: scaleRecord;
+
+.scale-record {
+    animation-name: scale-record;
     animation-iteration-count: infinite;
     animation-duration: 1s;
 }
-.scaleCapture {
-    animation-name: scaleCapture;
-    animation-iteration-count: infinite;
+.scale-capture {
+    animation-name: scale-capture;
+    animation-iteration-count: 1;
     animation-duration: 1s;
 }
-@keyframes scaleRecord {
+
+@keyframes scale-record {
     0% {
         transform: scale(0.8);
     }
     100% {
-        transform: scale(1.1);
+        transform: scale(1.1)
     }
 }
-@keyframes scaleCapture {
+@keyframes scale-capture {
     0% {
         transform: scale(0.8);
     }
     100% {
-        transform: scale(1.1);
+        transform: scale(1.1)
     }
 }
-.timerCont{
-    color: aqua;
+
+.timer-cont {
     position: absolute;
     bottom: 10rem;
-    left: 4rem;
+    left: 5rem;
+    color: aqua;
+    font-size: 0.8rem;
 }
 .timer {
     display: none;
 }
 
-.filterLayer {
+.filter-cont {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    opacity: 0.4;
-    /* background-image: linear-gradient(to top, black, transparent);  */
-    pointer-events: none;
-}
-
-.filterCont {
-    position: absolute;
-    top: calc((100vh - 16rem)/2);    
+    top: calc( (100vh - 16rem ) / 2 );
     left: 5rem;
     height: 16rem;
     width: 5rem;
+    background-color: aqua;
     z-index: 2;
 }
+
 .filter {
     height: 4rem;
-    background-color: #ffff0075;
     background-image: url("https://picsum.photos/seed/picsum/200/300");
     background-position: center;
-    background-size: 100%, 100%;
+    background-size: 100% 100%;
     background-repeat: no-repeat;
     background-blend-mode: color-burn;
-    cursor: pointer;
+}
+
+.orange {
+    background-color: #ffa50052;
 }
 .brown {
-    background-color: #a52a2a61;
+    background-color: #a52a2a59;
+}
+.pink {
+    background-color: #ffc0cb57;
 }
 .transparent {
     background-color: transparent;
 }
-.red {
-    background-color: #ff000080;
+
+.filter-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    z-index: 1;
 }
-.material-symbols-outlined {
-    color: white;
-}
+
 .material-icons {
     color: white;
     font-size: 3rem;
 }
 .gallery {
-    right: 6rem;
     position: absolute;
-    bottom: 5rem;
+    right: 6rem;
+    bottom: 7rem;
     z-index: 2;
+}
+.gallery:hover {
     cursor: pointer;
 }

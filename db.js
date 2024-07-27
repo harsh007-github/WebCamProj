@@ -1,20 +1,19 @@
-// Open Database
-// Create objectStore(just like tables)
+// Open a database
+// Create objectstore
+// Make transactions
 let db;
-let request = indexedDB.open("fileStorage"); //Opening DB with a certain name
-//If Opening DB has any errors
-request.onerror = (e) => {
-  console.log("DB Error");
-  db = request.result;
-};
-//If Opening DB is successful
-request.onsuccess = (e) => {
-  console.log("DB Opened Successfully");
-};
-//If Opening DB is upgraded
-request.onupgradeneeded = (e) => {
-  console.log("DB Upgraded and intial DB created");
-  db = request.result;
-  db.createObjectStore("video", { keyPath: "id" });
-  db.createObjectStore("image", { keyPath: "id" });
-};
+let openRequest = indexedDB.open("myDataBase");
+openRequest.addEventListener("success", (e) => {
+    console.log("DB Success");
+    db = openRequest.result;
+})
+openRequest.addEventListener("error", (e) => {
+    console.log("DB error");
+})
+openRequest.addEventListener("upgradeneeded", (e) => {
+    console.log("DB upgraded and also for initial DB creation");
+    db = openRequest.result;
+
+    db.createObjectStore("video", { keyPath: "id" });
+    db.createObjectStore("image", { keyPath: "id" });
+})

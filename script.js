@@ -1,134 +1,142 @@
 let video = document.querySelector("video");
-// Record and capture on click of these
-let recordCont = document.querySelector(".recordBtnContainer");
-let captureCont = document.querySelector(".captureBtnContainer");
-// Animations will be performed on these on click
-let recordBtn = document.querySelector(".recordBtn");
-let captureBtn = document.querySelector(".captureBtn");
-let recorder;
+let recordBtnCont = document.querySelector(".record-btn-cont");
+let recordBtn = document.querySelector(".record-btn");
+let captureBtnCont = document.querySelector(".capture-btn-cont");
+let captureBtn = document.querySelector(".capture-btn");
 let recordFlag = false;
-let chunks = [];
-let color = "transparent";
+let transparentColor = "transparent";
 
-// Permissions needed to enter and with their requirements (true in this case)
+let recorder;
+let chunks = []; // Media data in chunks
+
 let constraints = {
-    audio: true,
-    video: true
-};
+    video: true,
+    audio: true
+}
 
-navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
-    video.srcObject = stream;
-    recorder = new MediaRecorder(stream);
-    recorder.addEventListener("start", (e) => {
-        chunks = [];
-    });
-    recorder.addEventListener("dataavailable", (e) => {
-        chunks.push(e.data);
-    });
-    recorder.addEventListener("stop", (e) => {
-        // Converting chunks to video
-        let blob = new Blob(chunks, { type: "video/mp4" });
-        // let url = URL.createObjectURL(blob);
-        if (db) {
-            let dbTransaction = db.transaction("video", "readwrite");
-            let videoID = shortid();
-            let videoStore = dbTransaction.objectStore("video");
-            let videoEntry = {
-                id: videoID,
-                blobData: blob
-            };
-            videoStore.add(videoEntry);
-        }
+// navigator -> global, browser info
+navigator.mediaDevices.getUserMedia(constraints)
+    .then((stream) => {
+        video.srcObject = stream;
 
-        // let a = document.createElement("a");
-        // a.href = url;
-        // a.download = "stream.mp4"
-        // a.click();
-    });
-});
+        recorder = new MediaRecorder(stream);
+        recorder.addEventListener("start", (e) => {
+            chunks = [];
+        })
+        recorder.addEventListener("dataavailable", (e) => {
+            chunks.push(e.data);
+        })
+        recorder.addEventListener("stop", (e) => {
+            // Conversion of media chunks data to video
+            let blob = new Blob(chunks, { type: "video/mp4" });
 
-recordCont.addEventListener("click", (e) => {
-    if (!recorder) {
-        return;
-    }
-    // Acts as toggle b/w true and false to start and stop recording
+            if (db) {
+                let videoID = shortid();
+                let dbTransaction = db.transaction("video", "readwrite");
+                let videoStore = dbTransaction.objectStore("video");
+                let videoEntry = {
+                    id: `vid-${videoID}`,
+                    blobData: blob
+                }
+                videoStore.add(videoEntry);
+            }
+
+            // let a = document.createElement("a");
+            // a.href = videoURL;
+            // a.download = "stream.mp4";
+            // a.click();
+        })
+    })
+
+recordBtnCont.addEventListener("click", (e) => {
+    if (!recorder) return;
+
     recordFlag = !recordFlag;
-    if (recordFlag) {
+
+    if (recordFlag) { // start
         recorder.start();
-        recordBtn.classList.add("scaleRecord");
+        recordBtn.classList.add("scale-record");
         startTimer();
-    } else {
+    }
+    else { // stop
         recorder.stop();
-        recordBtn.classList.remove("scaleRecord");
+        recordBtn.classList.remove("scale-record");
         stopTimer();
     }
-});
+})
 
-captureCont.addEventListener("click", () => {
+captureBtnCont.addEventListener("click", (e) => {
+    captureBtn.classList.add("scale-capture");
+
     let canvas = document.createElement("canvas");
-    
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
-    
+
     let tool = canvas.getContext("2d");
-    // Filtering
-    
     tool.drawImage(video, 0, 0, canvas.width, canvas.height);
-    tool.fillStyle = color;
+    // Filtering 
+    tool.fillStyle = transparentColor;
     tool.fillRect(0, 0, canvas.width, canvas.height);
+
     let imageURL = canvas.toDataURL();
+
     if (db) {
-        let dbTransaction = db.transaction("image", "readwrite");
         let imageID = shortid();
+        let dbTransaction = db.transaction("image", "readwrite");
         let imageStore = dbTransaction.objectStore("image");
         let imageEntry = {
-            id: imageID,
-            URL: imageURL
-        };
+            id: `img-${imageID}`,
+            url: imageURL
+        }
         imageStore.add(imageEntry);
     }
-    let a = document.createElement("a");
-    a.href = imageURL;
-    a.download = "capture.jpg";
-    a.click();
-});
 
-let timer = document.querySelector(".timer");
+    setTimeout(() => {
+        captureBtn.classList.remove("scale-capture");
+    }, 500)
+})
+
 let timerID;
-let cnt = 0;
-
+let counter = 0; // Represents total seconds
+let timer = document.querySelector(".timer");
 function startTimer() {
     timer.style.display = "block";
     function displayTimer() {
-        let totalTime = cnt;
-        let hour = Number.parseInt(cnt / 3600);
-        totalTime -= 3600 * hour;
-        let minutes = Number.parseInt(totalTime / 60);
-        totalTime -= Number.parseInt(60 * minutes);
-        let seconds = totalTime;
-        hour = (hour < 10) ? `0${hour}` : hour;
+        let totalSeconds = counter;
+
+        let hours = Number.parseInt(totalSeconds / 3600);
+        totalSeconds = totalSeconds % 3600; // remaining value
+
+        let minutes = Number.parseInt(totalSeconds / 60);
+        totalSeconds = totalSeconds % 60; // remaining value
+
+        let seconds = totalSeconds;
+
+        hours = (hours < 10) ? `0${hours}` : hours;
         minutes = (minutes < 10) ? `0${minutes}` : minutes;
         seconds = (seconds < 10) ? `0${seconds}` : seconds;
-        timer.innerText = `${hour}:${minutes}:${seconds}`;
-        cnt++;
+
+        timer.innerText = `${hours}:${minutes}:${seconds}`;
+
+        counter++;
     }
+
     timerID = setInterval(displayTimer, 1000);
 }
-
 function stopTimer() {
     clearInterval(timerID);
-    timer.style.display = "none";
     timer.innerText = "00:00:00";
+    timer.style.display = "none";
 }
 
-// Logic for filter
-let filter = document.querySelectorAll(".filter");
-let filterLayer = document.querySelector(".filterLayer");
 
-filter.forEach((filterElem) => {
+// Filtering logic
+let filterLayer = document.querySelector(".filter-layer");
+let allFilters = document.querySelectorAll(".filter");
+allFilters.forEach((filterElem) => {
     filterElem.addEventListener("click", (e) => {
-        let filterElemStyle = getComputedStyle(filterElem);
-        color = filterElemStyle.backgroundColor;
-        filterLayer.style.backgroundColor = color;
-    });
-});
+        // Get style
+        transparentColor = getComputedStyle(filterElem).getPropertyValue("background-color");
+        filterLayer.style.backgroundColor = transparentColor;
+    })
+})
